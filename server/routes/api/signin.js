@@ -23,8 +23,11 @@ module.exports = (app) => {
     const { body } = req;
     const {
       username,
-      email,
       password
+    } = body;
+
+    let {
+      email
     } = body;
 
     if (!username) {
@@ -50,7 +53,7 @@ module.exports = (app) => {
 
     User.find({
       email: email
-    }), (err, previousUsers) => {
+    }, (err, previousUsers) => {
       if (err) {
         return res.send({
           success: false,
@@ -79,8 +82,8 @@ module.exports = (app) => {
         return res.send({
           success: true,
           message: 'Account successfully created!'
-        })
+        });
       })
-    }
+    });
   });
 };
