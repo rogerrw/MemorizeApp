@@ -1,4 +1,5 @@
 const User = require('../../models/User');
+const UserSession = require('../../models/UserSession');
 
 module.exports = (app) => {
   // app.get('/api/counters', (req, res, next) => {
@@ -17,9 +18,9 @@ module.exports = (app) => {
   // });
 
   /*
-   * Sign Up
+   * Create Account
    */
-  app.post('/api/account/signup', (req, res, next) => {
+  app.post('/api/account/createaccount', (req, res, next) => {
     const { body } = req;
     const {
       username,
@@ -53,13 +54,13 @@ module.exports = (app) => {
 
     User.find({
       email: email
-    }, (err, previousUsers) => {
+    }, (err, existingUsers) => {
       if (err) {
         return res.send({
           success: false,
           message: 'Error: Server error.'
         });
-      } else if (previousUsers.length > 0) {
+      } else if (existingUsers.length > 0) {
         return res.send({
           success: false,
           message: 'Error: Account already exists.'
@@ -84,6 +85,78 @@ module.exports = (app) => {
           message: 'Account successfully created!'
         });
       })
+    });
+  });
+
+  /*
+   * Sign In
+   */
+  app.post('/api/account/signin', (req, res, next) => {
+    const { body } = req;
+    const {
+      username,
+      password
+    } = body;
+
+    let {
+      email
+    } = body;
+
+    if (!username) {
+      return res.send({
+        success: false,
+        message: 'Error: Username cannot be blank.'
+      });
+    }
+    if (!username) {
+      return res.send({
+        success: false,
+        message: 'Error: Password cannot be blank.'
+      });
+    }
+
+    User.find({
+      username: username
+    }, (err, users) => {
+      if (err) {
+        return res.send({
+          success: false,
+          message: 'Error: Server error.'
+        });
+      }
+
+      if (users.length !== 1) { // greater than 1 should be impossible
+        return res.send({
+          success: false,
+          message: 'Error: User does not exist. Would you like to create an account?'
+        });
+      }
+
+      const user = users[0];
+      if (!user.validPassword(password)) {
+        return res.send({
+          success: false,
+          message: 'Error: Invalid username or password.'
+        });
+      }
+
+      // User sign in correct
+      const userSession = new UserSession();
+      userSession.userId = user._id;
+      userSession.save((err, doc) => {
+        if (err) {
+          return res.send({
+            success: false,
+            message: 'Error: Server error.'
+          });
+        }
+
+        return res.send({
+          success: true,
+          message: 'Sign in successful.',
+          token: doc._id
+        });
+      });
     });
   });
 };
