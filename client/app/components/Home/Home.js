@@ -1,107 +1,172 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 
+import {
+  getFromStorage,
+  setInStorage
+} from '../../utils/storage';
+
 class Home extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      counters: []
+      token: '',
+      isLoading: true,
+
+      createAccountUsername: '',
+      createAccountEmail: '',
+      createAccountPassword: '',
+      createAccountError: '',
+
+      signInUsername: '',
+      signInPassword: '',
+      signInError: ''
+
     };
 
-    this.newCounter = this.newCounter.bind(this);
-    this.incrementCounter = this.incrementCounter.bind(this);
-    this.decrementCounter = this.decrementCounter.bind(this);
-    this.deleteCounter = this.deleteCounter.bind(this);
+    this.onChangeSignInUsernameInput = this.onChangeSignInUsernameInput.bind(this);
+    this.onChangeSignInPasswordInput = this.onChangeSignInPasswordInput.bind(this);
 
-    this._modifyCounter = this._modifyCounter.bind(this);
+    this.onChangeCreateAccountUsernameInput = this.onChangeCreateAccountUsernameInput.bind(this);
+    this.onChangeCreateAccountEmailInput = this.onChangeCreateAccountEmailInput.bind(this);
+    this.onChangeCreateAccountPasswordInput = this.onChangeCreateAccountPasswordInput.bind(this);
   }
 
   componentDidMount() {
-    fetch('/api/counters')
-      .then(res => res.json())
-      .then(json => {
-        this.setState({
-          counters: json
+    const token = getFromStorage('the_main_app');
+    if (token) {
+      // verify token
+      fetch(`/api/account/verify?token=#{token}`)
+        .then(res => res.json())
+        .then(json => {
+          if (json.success) {
+            this.setState({
+              token,
+              isLoading: false
+            });
+          } else {
+            this.setState({
+              isLoading: false
+            })
+          }
         });
-      });
-  }
-
-  newCounter() {
-    fetch('/api/counters', { method: 'POST' })
-      .then(res => res.json())
-      .then(json => {
-        let data = this.state.counters;
-        data.push(json);
-
-        this.setState({
-          counters: data
-        });
-      });
-  }
-
-  incrementCounter(index) {
-    const id = this.state.counters[index]._id;
-
-    fetch(`/api/counters/${id}/increment`, { method: 'PUT' })
-      .then(res => res.json())
-      .then(json => {
-        this._modifyCounter(index, json);
-      });
-  }
-
-  decrementCounter(index) {
-    const id = this.state.counters[index]._id;
-
-    fetch(`/api/counters/${id}/decrement`, { method: 'PUT' })
-      .then(res => res.json())
-      .then(json => {
-        this._modifyCounter(index, json);
-      });
-  }
-
-  deleteCounter(index) {
-    const id = this.state.counters[index]._id;
-
-    fetch(`/api/counters/${id}`, { method: 'DELETE' })
-      .then(_ => {
-        this._modifyCounter(index, null);
-      });
-  }
-
-  _modifyCounter(index, data) {
-    let prevData = this.state.counters;
-
-    if (data) {
-      prevData[index] = data;
     } else {
-      prevData.splice(index, 1);
+      this.setState({
+        isLoading: false
+      });
     }
-
-    this.setState({
-      counters: prevData
-    });
   }
 
   render() {
+    const {
+      isLoading,
+      token,
+      signInError,
+      signInUsername,
+      signInPassword,
+      createAccountUsername,
+      createAccountEmail,
+      createAccountPassword,
+      createAccountError,
+    } = this.state;
+
+    if (isLoading) {
+      return (
+        <div>
+          <p> Loading... </p>
+        </div>
+      );
+    }
+
+    const errorMessage = signInError ? (
+      <div>
+        <p>signInError</p>
+      </div>
+    ) : null;
+
+    if (!token) {
+      return (
+        <div>
+          {errorMessage}
+          <div>
+            <p> Sign In </p>
+            <input
+              type="text"
+              placeholder="username"
+              value={signInUsername}
+              onChange={this.onChangeSignInUsernameInput}
+            />
+            <input
+              type="password"
+              placeholder="password"
+              value={signInPassword}
+              onChange={this.onChangeSignInPasswordInput}
+            />
+            <button type="submit">Sign In</button>
+          </div>
+
+          <div>
+            <p> Create Account </p>
+            <input
+              type="text"
+              placeholder="username"
+              value={createAccountUsername}
+              onChange={this.onChangeCreateAccountUsernameInput}
+            />
+            <input
+              type="email"
+              placeholder="email"
+              value={createAccountEmail}
+              onChange={this.onChangeCreateAccountEmailInput}
+            />
+            <input
+              type="password"
+              placeholder="password"
+              value={createAccountPassword}
+              onChange={this.onChangeCreateAccountPasswordInput}
+            />
+            <button type="submit">Create Account</button>
+          </div>
+
+        </div>
+      );
+    }
     return (
       <div>
-        <p>Counters:</p>
-
-        <ul>
-          { this.state.counters.map((counter, i) => (
-            <li key={i}>
-              <span>{counter.count} </span>
-              <button onClick={() => this.incrementCounter(i)}>+</button>
-              <button onClick={() => this.decrementCounter(i)}>-</button>
-              <button onClick={() => this.deleteCounter(i)}>x</button>
-            </li>
-          )) }
-        </ul>
-
-        <button onClick={this.newCounter}>New counter</button>
+        <p>Account</p>
       </div>
     );
+  }
+
+  onChangeSignInUsernameInput(event) {
+    this.setState({
+      signInUsername: event.target.value
+    });
+  }
+
+  onChangeSignInPasswordInput(event) {
+    this.setState({
+      signInPassword: event.target.value
+    });
+  }
+
+  onChangeCreateAccountUsernameInput(event) {
+    this.setState({
+      createAccountUsername: event.target.value
+    });
+  }
+
+  onChangeCreateAccountEmailInput(event) {
+    this.setState({
+      createAccountEmail: event.target.value
+    });
+  }
+
+  onChangeCreateAccountPasswordInput(event) {
+    this.setState({
+      createAccountPassword: event.target.value
+    });
   }
 }
 
