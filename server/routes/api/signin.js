@@ -159,4 +159,41 @@ module.exports = (app) => {
       });
     });
   });
+
+
+  app.get('/api/account/verify', (req, res, next) => {
+    const { query } = req;
+
+    const {
+      token
+    } = query;
+
+    UserSession.find({
+      _id: token,
+      isDeleted: false
+    }, (err, sessions) => {
+      if (err) {
+        return res.send({
+          success: false,
+          message: "Error: Server error."
+        });
+      }
+
+      if (sessions.length !== 1) {
+        return res.send({
+          success: false,
+          message: "Error: Invalid session."
+        });
+      }
+
+      return res.send({
+        success: true,
+        message: "Session is valid."
+      })
+    });
+  });
+
+  app.post('/api/account/logout', (req, res, next) => {
+
+  });
 };
