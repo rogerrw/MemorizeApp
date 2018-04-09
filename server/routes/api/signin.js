@@ -175,25 +175,54 @@ module.exports = (app) => {
       if (err) {
         return res.send({
           success: false,
-          message: "Error: Server error."
+          message: 'Error: Server error.'
         });
       }
 
       if (sessions.length !== 1) {
         return res.send({
           success: false,
-          message: "Error: Invalid session."
+          message: 'Error: Invalid session.'
         });
       }
 
       return res.send({
         success: true,
-        message: "Session is valid."
+        message: 'Session is valid.'
       })
     });
   });
 
-  app.post('/api/account/logout', (req, res, next) => {
+  app.get('/api/account/logout', (req, res, next) => {
+    const { query } = req;
 
+    const {
+      token
+    } = query;
+
+    UserSession.findOneAndUpdate({
+      _id: token,
+      isDeleted: false
+    }, {
+      isDeleted: true
+    }, (err, session) => {
+      if (err) {
+        return res.send({
+          success: false,
+          message: 'Error: Server error'
+        });
+      }
+
+      if (!session) {
+        return res.send({
+          success: false,
+          message: 'Error: Logout failure.'
+        });
+      }
+      return res.send({
+        success: true,
+        message: 'Logged out.'
+      });
+    });
   });
 };
