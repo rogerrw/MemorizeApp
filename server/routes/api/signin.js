@@ -20,7 +20,7 @@ module.exports = (app) => {
   /*
    * Create Account
    */
-  app.post('/api/account/createaccount', (req, res, next) => {
+  app.post('/api/account/create', (req, res, next) => {
     const { body } = req;
     const {
       username,
@@ -108,7 +108,7 @@ module.exports = (app) => {
         message: 'Error: Username cannot be blank.'
       });
     }
-    if (!username) {
+    if (!password) {
       return res.send({
         success: false,
         message: 'Error: Password cannot be blank.'
