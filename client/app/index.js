@@ -1,17 +1,17 @@
 import './styles/styles.scss';
 
 import {
-// Link,
-// Route,
-// BrowserRouter as Router,
-// Switch
+  Link,
+  Route,
+  BrowserRouter as Router,
+  Switch
 } from 'react-router-dom';
 
-// import App from './components/App/App';
+import App from './components/App/App';
 import HelloWorld from './components/HelloWorld/HelloWorld';
 import Home from './components/Home/Home';
 import NotFound from './components/App/NotFound';
-// import React from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 
 render((

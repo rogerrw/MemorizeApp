@@ -1,10 +1,11 @@
 import 'whatwg-fetch';
-import { Component } from 'react';
-
 import {
-  getFromStorage
-  // setInStorage
+  getFromStorage,
+  setInStorage
 } from '../../utils/storage';
+import React, { Component } from 'react';
+
+
 
 class Home extends Component {
   constructor(props) {

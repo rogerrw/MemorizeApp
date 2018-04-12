@@ -47,6 +47,7 @@ module.exports = {
             "single",
             { "allowTemplateLiterals": true }
         ],
+        "react/jsx-uses-vars": 2,
         "semi": [
             "error",
             "always"
