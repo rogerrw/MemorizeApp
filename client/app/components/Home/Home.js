@@ -31,6 +31,9 @@ class Home extends Component {
     this.onChangeCreateAccountUsernameInput = this.onChangeCreateAccountUsernameInput.bind(this);
     this.onChangeCreateAccountEmailInput = this.onChangeCreateAccountEmailInput.bind(this);
     this.onChangeCreateAccountPasswordInput = this.onChangeCreateAccountPasswordInput.bind(this);
+
+    this.signIn = this.signIn.bind(this);
+    this.createAccount = this.createAccount.bind(this);
   }
 
   componentDidMount() {
@@ -103,7 +106,7 @@ class Home extends Component {
               value={signInPassword}
               onChange={this.onChangeSignInPasswordInput}
             />
-            <button type="submit">Sign In</button>
+            <button type="button" onClick={this.signIn}>Sign In</button>
           </div>
 
           <div>
@@ -126,7 +129,7 @@ class Home extends Component {
               value={createAccountPassword}
               onChange={this.onChangeCreateAccountPasswordInput}
             />
-            <button type="submit">Create Account</button>
+            <button type="button" onClick={this.createAccount}>Create Account</button>
           </div>
 
         </div>
@@ -139,6 +142,7 @@ class Home extends Component {
     );
   }
 
+  // Sign in methods
   onChangeSignInUsernameInput(event) {
     this.setState({
       signInUsername: event.target.value
@@ -151,6 +155,26 @@ class Home extends Component {
     });
   }
 
+  signIn(event) {
+    const {
+      signInUsername,
+      signInPassword
+    } = this.state;
+
+    fetch('/api/account/signin', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: signInUsername,
+        password: signInPassword
+      })
+    });
+  }
+
+  // Create account methods
   onChangeCreateAccountUsernameInput(event) {
     this.setState({
       createAccountUsername: event.target.value
@@ -166,6 +190,27 @@ class Home extends Component {
   onChangeCreateAccountPasswordInput(event) {
     this.setState({
       createAccountPassword: event.target.value
+    });
+  }
+
+  createAccount(event) {
+    const {
+      createAccountUsername,
+      createAccountEmail,
+      createAccountPassword
+    } = this.state;
+
+    fetch('/api/account/create', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: createAccountUsername,
+        email: createAccountEmail,
+        password: createAccountPassword
+      })
     });
   }
 }
