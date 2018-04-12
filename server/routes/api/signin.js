@@ -2,25 +2,11 @@ const User = require('../../models/User');
 const UserSession = require('../../models/UserSession');
 
 module.exports = (app) => {
-  // app.get('/api/counters', (req, res, next) => {
-  //   Counter.find()
-  //     .exec()
-  //     .then((counter) => res.json(counter))
-  //     .catch((err) => next(err));
-  // });
-  //
-  // app.post('/api/counters', function (req, res, next) {
-  //   const counter = new Counter();
-  //
-  //   counter.save()
-  //     .then(() => res.json(counter))
-  //     .catch((err) => next(err));
-  // });
 
   /*
    * Create Account
    */
-  app.post('/api/account/create', (req, res, next) => {
+  app.post('/api/account/create', (req, res) => {
     const { body } = req;
     const {
       username,
@@ -72,7 +58,7 @@ module.exports = (app) => {
       newUser.email = email;
       newUser.password = newUser.generateHash(password);
 
-      newUser.save((err, user) => {
+      newUser.save((err) => {
         if (err) {
           return res.send({
             success: false,
@@ -84,22 +70,18 @@ module.exports = (app) => {
           success: true,
           message: 'Account successfully created!'
         });
-      })
+      });
     });
   });
 
   /*
    * Sign In
    */
-  app.post('/api/account/signin', (req, res, next) => {
+  app.post('/api/account/signin', (req, res) => {
     const { body } = req;
     const {
       username,
       password
-    } = body;
-
-    let {
-      email
     } = body;
 
     if (!username) {
@@ -161,7 +143,7 @@ module.exports = (app) => {
   });
 
 
-  app.get('/api/account/verify', (req, res, next) => {
+  app.get('/api/account/verify', (req, res) => {
     const { query } = req;
 
     const {
@@ -189,11 +171,11 @@ module.exports = (app) => {
       return res.send({
         success: true,
         message: 'Session is valid.'
-      })
+      });
     });
   });
 
-  app.get('/api/account/logout', (req, res, next) => {
+  app.get('/api/account/logout', (req, res) => {
     const { query } = req;
 
     const {

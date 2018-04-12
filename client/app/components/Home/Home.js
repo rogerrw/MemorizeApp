@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
 import 'whatwg-fetch';
+import { Component } from 'react';
 
 import {
-  getFromStorage,
-  setInStorage
+  getFromStorage
+  // setInStorage
 } from '../../utils/storage';
 
 class Home extends Component {
@@ -51,7 +51,7 @@ class Home extends Component {
           } else {
             this.setState({
               isLoading: false
-            })
+            });
           }
         });
     } else {
@@ -71,7 +71,7 @@ class Home extends Component {
       createAccountUsername,
       createAccountEmail,
       createAccountPassword,
-      createAccountError,
+      createAccountError
     } = this.state;
 
     if (isLoading) {
@@ -155,7 +155,7 @@ class Home extends Component {
     });
   }
 
-  signIn(event) {
+  signIn() {
     const {
       signInUsername,
       signInPassword
@@ -165,7 +165,7 @@ class Home extends Component {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         username: signInUsername,
@@ -193,7 +193,7 @@ class Home extends Component {
     });
   }
 
-  createAccount(event) {
+  createAccount() {
     const {
       createAccountUsername,
       createAccountEmail,
@@ -204,7 +204,7 @@ class Home extends Component {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         username: createAccountUsername,

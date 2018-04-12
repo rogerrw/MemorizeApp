@@ -1,6 +1,6 @@
 const bodyParser = require('body-parser');
 const express = require('express');
-const fs = require('fs');
+// const fs = require('fs');
 const historyApiFallback = require('connect-history-api-fallback');
 const mongoose = require('mongoose');
 const path = require('path');
@@ -20,7 +20,7 @@ const port  = process.env.PORT || 8080;
 
 // Set up Mongoose
 mongoose.connect(isDev ? config.db_dev : config.db, {
-  useMongoClient: true,
+  useMongoClient: true
 });
 mongoose.Promise = global.Promise;
 
