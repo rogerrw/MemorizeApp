@@ -47,7 +47,11 @@ module.exports = {
             "single",
             { "allowTemplateLiterals": true }
         ],
-        "react/jsx-uses-vars": 2,
+        "react/jsx-uses-react": "error",
+        "react/jsx-uses-vars": "error",
+        "react/no-unused-prop-types": "error",
+        "react/no-unused-state": "error",
+        "react/prop-types": "error",
         "semi": [
             "error",
             "always"
