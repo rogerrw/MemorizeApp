@@ -91,46 +91,51 @@ class Home extends Component {
 
     if (!token) {
       return (
-        <div>
+        <div id="home">
           {errorMessage}
-          <div>
-            <p> Sign In </p>
-            <input
-              type="text"
-              placeholder="username"
-              value={signInUsername}
-              onChange={this.onChangeSignInUsernameInput}
-            />
-            <input
-              type="password"
-              placeholder="password"
-              value={signInPassword}
-              onChange={this.onChangeSignInPasswordInput}
-            />
-            <button type="button" onClick={this.signIn}>Sign In</button>
+          <div id="logo">
+            <h1>Memorize</h1>
           </div>
+          <div id="signInContainer">
+            <div id="signIn">
+              <p> Sign In </p>
+              <input
+                type="text"
+                placeholder="username"
+                value={signInUsername}
+                onChange={this.onChangeSignInUsernameInput}
+              />
+              <input
+                type="password"
+                placeholder="password"
+                value={signInPassword}
+                onChange={this.onChangeSignInPasswordInput}
+              />
+              <button type="button" onClick={this.signIn}>Sign In</button>
+            </div>
 
-          <div>
-            <p> Create Account </p>
-            <input
-              type="text"
-              placeholder="username"
-              value={createAccountUsername}
-              onChange={this.onChangeCreateAccountUsernameInput}
-            />
-            <input
-              type="email"
-              placeholder="email"
-              value={createAccountEmail}
-              onChange={this.onChangeCreateAccountEmailInput}
-            />
-            <input
-              type="password"
-              placeholder="password"
-              value={createAccountPassword}
-              onChange={this.onChangeCreateAccountPasswordInput}
-            />
-            <button type="button" onClick={this.createAccount}>Create Account</button>
+            <div id="createAccount">
+              <p> Create Account </p>
+              <input
+                type="text"
+                placeholder="username"
+                value={createAccountUsername}
+                onChange={this.onChangeCreateAccountUsernameInput}
+              />
+              <input
+                type="email"
+                placeholder="email"
+                value={createAccountEmail}
+                onChange={this.onChangeCreateAccountEmailInput}
+              />
+              <input
+                type="password"
+                placeholder="password"
+                value={createAccountPassword}
+                onChange={this.onChangeCreateAccountPasswordInput}
+              />
+              <button type="button" onClick={this.createAccount}>Create Account</button>
+            </div>
           </div>
 
         </div>

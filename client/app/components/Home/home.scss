@@ -1,0 +1,29 @@
+#home {
+  display: flex;
+}
+
+#logo {
+  flex-basis: 60%;
+  text-align: center;
+  margin: 15em 0;
+
+  h1 {
+    color: white;
+    font-size: 3em;
+  }
+
+}
+
+#signInContainer {
+  flex-basis: 40%;
+  margin: 5em;
+  padding: 1em;
+  background-color: white;
+
+  #signIn {
+
+  }
+  #createAccount {
+
+  }
+}

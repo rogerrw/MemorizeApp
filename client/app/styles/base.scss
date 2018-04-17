@@ -1,0 +1,18 @@
+main {
+  background: $main-background-color;
+  padding: 1em;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  -webkit-appearance: none;
+  background: $default-button-color;
+  border: none;
+}
+
+button.submit {
+  background: $submit-button-color;
+}

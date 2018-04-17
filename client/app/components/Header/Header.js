@@ -9,7 +9,6 @@ const Header = () => (
       <Link to="/helloworld">Hello World</Link>
     </nav>
 
-    <hr />
   </header>
 );
 

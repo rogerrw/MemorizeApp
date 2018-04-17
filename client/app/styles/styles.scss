@@ -1,3 +1,8 @@
 @charset "UTF-8";
 
 @import 'vendor/normalize';
+@import './variables';
+@import './base';
+
+@import '../components/Home/home';
+@import '../components/Footer/footer';

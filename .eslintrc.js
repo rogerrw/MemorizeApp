@@ -35,9 +35,15 @@ module.exports = {
             "error",
             "unix"
         ],
+        "no-console": [
+          "warn"
+        ],
         "no-else-return": [
             "error",
             { "allowElseIf": true }
+        ],
+        "no-unused-vars": [
+          "warn"
         ],
         "prefer-const": [
             "error"
