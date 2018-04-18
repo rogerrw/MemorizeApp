@@ -1,3 +1,9 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Raleway', sans-serif;
+  font-weight: lighter;
+}
+
 main {
   background: $main-background-color;
   padding: 1em;
